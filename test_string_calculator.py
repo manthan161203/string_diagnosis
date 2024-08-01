@@ -22,7 +22,10 @@ class TestStringCalculator(unittest.TestCase):
     def test_custom_delimiter(self):
         self.assertEqual(add("//;\n1;2"), 3)
         self.assertEqual(add("//|\n1|2|3"), 6)
-
+    def test_multiple_delimiters(self):
+        self.assertEqual(add("//[*][%]\n1*2%3"), 6)
+        self.assertEqual(add("//[***][%%%]\n1***2%%%3"), 6)
+        
     def test_negative_numbers(self):
         with self.assertRaises(ValueError) as context:
             add("1,-2,3")
