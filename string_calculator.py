@@ -1,15 +1,9 @@
 import re
 
-def add(numbers: str) -> int:
-    print(f"Input string: {numbers}")
-    
-    # Return 0 if the input is an empty string
-    if not numbers:
-        print("Empty input, returning 0.")
-        return 0
-
+def extract_delimiters(numbers: str) -> (str, str):
+    """Extracts custom delimiters and processes the numbers string."""
     delimiter = ','
-    # Check for custom delimiter specification
+    
     if numbers.startswith("//"):
         parts = numbers.split('\n', 1)
         delimiter_part = parts[0][2:]
@@ -29,6 +23,19 @@ def add(numbers: str) -> int:
             delimiter = delimiter_part
             numbers = numbers.replace(delimiter, ',')
             print(f"Replaced '{delimiter}' with ',': '{numbers}'")
+    
+    return numbers
+
+def add(numbers: str) -> int:
+    print(f"Input string: {numbers}")
+    
+    # Return 0 if the input is an empty string
+    if not numbers:
+        print("Empty input, returning 0.")
+        return 0
+    
+    # Process custom delimiters
+    numbers = extract_delimiters(numbers)
     
     # Replace newlines with commas to unify delimiter usage
     numbers = numbers.replace('\n', ',')

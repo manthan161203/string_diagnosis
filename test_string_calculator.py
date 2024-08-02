@@ -25,34 +25,35 @@ class TestStringCalculator(unittest.TestCase):
         
     def test_multiple_delimiters(self):
         self.assertEqual(add("//[*][%]\n1*2%3"), 6)
-        self.assertEqual(add("//[***][%%%]\n1***2%%%3"), 6)
+        self.assertEqual(add("//[\\n]\n1\n2\n3"), 6)
         
     def test_ignore_numbers_greater_than_1000(self):
         self.assertEqual(add("2,1001"), 2)
         self.assertEqual(add("1000,1001,2"), 1002)
 
     def test_edge_cases(self):
-        self.assertEqual(add("//;\n"), 0)  # No numbers after delimiter specification
+        self.assertEqual(add("//;\n"), 0)    # No numbers after delimiter specification
         self.assertEqual(add("//;\n1;"), 1)  # Trailing delimiter without a number
         self.assertEqual(add("1\n,\n2"), 3)  # Irregular input format
         self.assertEqual(add("\n1,2\n"), 3)  # Leading and trailing newlines
+        self.assertEqual(add("//\n"), 0)
 
     def test_no_delimiters(self):
         self.assertEqual(add("1\n2,3"), 6)
         self.assertEqual(add("1\n2\n3\n4"), 10)
+    
+    def test_negative_numbers(self):
+        with self.assertRaises(ValueError) as context:
+            add("1,-2,3")
+        self.assertIn("Negative numbers not allowed", str(context.exception))
+        self.assertIn("-2", str(context.exception))
 
-    # def test_negative_numbers(self):
-    #     with self.assertRaises(ValueError) as context:
-    #         add("1,-2,3")
-    #     self.assertIn("negative numbers not allowed", str(context.exception))
-    #     self.assertIn("-2", str(context.exception))
-
-    #     with self.assertRaises(ValueError) as context:
-    #         add("-1,-2,-3")
-    #     self.assertIn("negative numbers not allowed", str(context.exception))
-    #     self.assertIn("-1", str(context.exception))
-    #     self.assertIn("-2", str(context.exception))
-    #     self.assertIn("-3", str(context.exception))
+        with self.assertRaises(ValueError) as context:
+            add("-1,-2,-3")
+        self.assertIn("Negative numbers not allowed", str(context.exception))
+        self.assertIn("-1", str(context.exception))
+        self.assertIn("-2", str(context.exception))
+        self.assertIn("-3", str(context.exception))
 
 if __name__ == "__main__":
     unittest.main()
