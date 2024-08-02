@@ -1,6 +1,6 @@
 import re
 
-def extract_delimiters(numbers: str) -> (str, str):
+def extract_delimiters(numbers: str) -> (str, str): # type: ignore
     """Extracts custom delimiters and processes the numbers string."""
     delimiter = ','
     
