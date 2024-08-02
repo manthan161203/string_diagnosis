@@ -45,7 +45,11 @@ def add(numbers: str) -> int:
         raise ValueError(f"Negative numbers not allowed: {', '.join(negatives)}")
     
     # Calculate the sum, ignoring numbers greater than 1000
-    total = sum(int(num) for num in num_list if num and int(num) <= 1000)
+    total = 0
+    for num in num_list:
+        if num and int(num) <= 1000:
+            total += int(num)
+
     print(f"Total sum (excluding >1000): {total}")
     
     return total
